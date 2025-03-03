@@ -1,0 +1,128 @@
+[gd_scene load_steps=5 format=3 uid="uid://cm2ud4cj16n4t"]
+
+[ext_resource type="Script" path="res://scripts/modeling/modeling.gd" id="1_wkjb5"]
+[ext_resource type="Script" path="res://scripts/modeling/h_split_container.gd" id="2_183ae"]
+[ext_resource type="Script" path="res://scripts/modeling/maximum_iterations.gd" id="3_1yi1g"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8oro4"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wkjb5")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 1
+
+[node name="Main menu" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Main menu"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 300
+script = ExtResource("2_183ae")
+
+[node name="TextEdit-Formula" type="TextEdit" parent="TabContainer/Main menu/HSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Edit formula's here!"
+
+[node name="TextEdit-Vars" type="TextEdit" parent="TabContainer/Main menu/HSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Edit variables here!"
+
+[node name="TextEdit-Condition" type="TextEdit" parent="TabContainer/Main menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+placeholder_text = "Edit conditions here!"
+
+[node name="mikeiscool" type="Button" parent="TabContainer/Main menu"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "mikeiscool"
+
+[node name="Graph Settings" type="VBoxContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Graph Settings"]
+layout_mode = 2
+columns = 2
+
+[node name="x-axis_label" type="Label" parent="TabContainer/Graph Settings/GridContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "maximum iterations: "
+label_settings = SubResource("LabelSettings_8oro4")
+
+[node name="X-axis" type="LineEdit" parent="TabContainer/Graph Settings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "X axis variable here!"
+
+[node name="y-axis_label" type="Label" parent="TabContainer/Graph Settings/GridContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "maximum iterations: "
+label_settings = SubResource("LabelSettings_8oro4")
+
+[node name="Y-axis" type="LineEdit" parent="TabContainer/Graph Settings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Y-axis variable here!"
+
+[node name="Advanced Settings" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Advanced Settings"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button-save" type="Button" parent="TabContainer/Advanced Settings/HBoxContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Advanced Settings"]
+layout_mode = 2
+columns = 2
+
+[node name="maximum_iterations_label" type="Label" parent="TabContainer/Advanced Settings/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "maximum iterations: "
+label_settings = SubResource("LabelSettings_8oro4")
+
+[node name="maximum-iterations" type="LineEdit" parent="TabContainer/Advanced Settings/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Type here to change the maximum iterations! (default: 1000)"
+clear_button_enabled = true
+script = ExtResource("3_1yi1g")
+
+[connection signal="text_changed" from="TabContainer/Main menu/HSplitContainer/TextEdit-Formula" to="." method="_on_text_edit_formula_text_changed"]
+[connection signal="text_changed" from="TabContainer/Main menu/HSplitContainer/TextEdit-Vars" to="." method="_on_text_edit_vars_text_changed"]
+[connection signal="text_changed" from="TabContainer/Main menu/TextEdit-Condition" to="." method="_on_text_edit_condition_text_changed"]
+[connection signal="pressed" from="TabContainer/Main menu/mikeiscool" to="." method="_on_mikeiscool_pressed"]
+[connection signal="text_changed" from="TabContainer/Advanced Settings/GridContainer/maximum-iterations" to="TabContainer/Advanced Settings/GridContainer/maximum-iterations" method="_on_text_changed"]

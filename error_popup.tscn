@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bp8oafh4v04wg"]
+
+[ext_resource type="Script" path="res://scripts/error_popup.gd" id="1_a1yt7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_takw4"]
+outline_size = 2
+outline_color = Color(1, 0, 0, 1)
+
+[node name="error_popup" type="PopupPanel"]
+size = Vector2i(171, 146)
+visible = true
+script = ExtResource("1_a1yt7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 167.0
+offset_bottom = 142.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "ERROR"
+label_settings = SubResource("LabelSettings_takw4")
+horizontal_alignment = 1
+
+[node name="error_info" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "you just got an error!
+lol"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Ok"
+
+[connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
