@@ -15,6 +15,15 @@ run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*res://globals.gd"
+
+[display]
+
+window/energy_saving/keep_screen_on=false
+window/energy_saving/keep_screen_on.editor_hint=true
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

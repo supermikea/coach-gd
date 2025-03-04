@@ -69,7 +69,7 @@ columns = 2
 [node name="x-axis_label" type="Label" parent="TabContainer/Graph Settings/GridContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-text = "maximum iterations: "
+text = "X-axis variable"
 label_settings = SubResource("LabelSettings_8oro4")
 
 [node name="X-axis" type="LineEdit" parent="TabContainer/Graph Settings/GridContainer"]
@@ -81,7 +81,7 @@ placeholder_text = "X axis variable here!"
 [node name="y-axis_label" type="Label" parent="TabContainer/Graph Settings/GridContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-text = "maximum iterations: "
+text = "Y-axis variable:"
 label_settings = SubResource("LabelSettings_8oro4")
 
 [node name="Y-axis" type="LineEdit" parent="TabContainer/Graph Settings/GridContainer"]
@@ -100,6 +100,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="Button-save" type="Button" parent="TabContainer/Advanced Settings/HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Save"
 

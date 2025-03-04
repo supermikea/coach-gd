@@ -70,43 +70,32 @@ func parse_assignments(input: String, allow_everythong: bool = false, use_denona
 	
 	return assignments
 
-func save_to_file(location: String, content):
-	var file = FileAccess.open("user://%s.dat" % location, FileAccess.WRITE)
-	file.store_string(content)
-
-func load_from_file(location: String):
-	var file = FileAccess.open("user://%s.dat" % location, FileAccess.READ)
-	if file == null:
-		return
-	var content = file.get_as_text()
-	return content
-
 func _ready() -> void:
 	# loading of everything
-	var formulatext = load_from_file("textformula")
+	var formulatext = Globals.load_from_file("textformula")
 	if formulatext:
 		%"TextEdit-Formula".text = formulatext
-	var textvars = load_from_file("textvars")
+	var textvars = Globals.load_from_file("textvars")
 	if textvars:
 		%"TextEdit-Vars".text = textvars
-	var textcondition = load_from_file("textcondition")
+	var textcondition = Globals.load_from_file("textcondition")
 	if textcondition:
 		%"TextEdit-Condition".text = textcondition
 
 func _on_text_edit_formula_text_changed() -> void:
 	var node: TextEdit = %"TextEdit-Formula"
 	var text = node.text
-	save_to_file("textformula", text)
+	Globals.save_to_file("textformula", text)
 
 func _on_text_edit_vars_text_changed() -> void:
 	var node: TextEdit = %"TextEdit-Vars"
 	var text = node.text
-	save_to_file("textvars", text)
+	Globals.save_to_file("textvars", text)
 
 func _on_text_edit_condition_text_changed() -> void:
 	var node: TextEdit = %"TextEdit-Condition"
 	var text = node.text
-	save_to_file("textcondition", text)
+	Globals.save_to_file("textcondition", text)
 
 # Checks a condition of the form [VARIABLE, operator, VALUE] on the current state.
 func check_condition(state: Dictionary, condition: Array) -> bool:
@@ -251,9 +240,13 @@ func loop_until_target(formula_array: Array, vars_array: Array, condition: Array
 
 func _on_mikeiscool_pressed() -> void: # here we need to create a popup with the graph
 	# setup variables
-	var textvars = load_from_file("textvars")
-	var formulavars = load_from_file("textformula")
-	var textcondition = load_from_file("textcondition")
+	var textvars = Globals.load_from_file("textvars")
+	var formulavars = Globals.load_from_file("textformula")
+	var textcondition = Globals.load_from_file("textcondition")
+	var max_iterations = Globals.load_from_file("max_iterations")
+	if not max_iterations:
+		max_iterations = 1000
+	
 	var dictvars = parse_assignments(textvars)
 	var dictformula = parse_assignments(formulavars, true)
 	var dictcondition = parse_assignments(textcondition, true, true)
@@ -274,13 +267,13 @@ func _on_mikeiscool_pressed() -> void: # here we need to create a popup with the
 	var xaxis_passed = false
 	var yaxis_passed = false
 	for item in dictvars:
-		print(item["key"])
+		# print(item["key"])
 		if item["key"] == Xaxis:
 			xaxis_passed = true
 		if item["key"] == Yaxis:
 			yaxis_passed = true
 	for item in dictformula:
-		print(item["key"])
+		# print(item["key"])
 		if item["key"] == Xaxis:
 			xaxis_passed = true
 		if item["key"] == Yaxis:
@@ -299,7 +292,7 @@ func _on_mikeiscool_pressed() -> void: # here we need to create a popup with the
 	
 	# print(dictformula)
 	# print(evaluate('A * B',['A', 'B'], [10, 30])) gives 300
-	var iterations := loop_until_target(dictformula, dictvars, dictcondition)
+	var iterations := loop_until_target(dictformula, dictvars, dictcondition, max_iterations)
 	# print_debug(iterations[0])
 	
 	call_deferred("plot_graph", iterations[1], Xaxis, Yaxis)
